@@ -25,14 +25,19 @@ void stakanMultiplyer(const std::array<int,7>& stakan, std::array<int, 7>& bytil
 	}
 }
 
-bool isUnique(const std::array<int, 7> & bytilka) // проверяем уникальность всех значений элементов массива (булытка)
+bool arrayValuesAreUnique(const std::array<int, 7>& stakan, const std::array<int, 7>& bytilka) // проверяем уникальность всех значений элементов массива (булытка) и уникальность значений 0,1,3,4 элементов массива сткан среди значений двух стаканов
 {
 	bool unique = true;
 	for (int counter = 0; counter < 7; ++counter) // проверка работы функции умножителя
 	{
 		for (int innerCounter = 0; innerCounter < 7; ++innerCounter)
 		{
-			if (bytilka[innerCounter] == bytilka[counter])
+			if ((bytilka[0] == stakan[innerCounter]) || (bytilka[1] == stakan[innerCounter]) || (bytilka[3] == stakan[innerCounter]) || (bytilka[4] == stakan[innerCounter]))
+			{
+				unique = false;
+				break;
+			}
+			if ((bytilka[innerCounter] == bytilka[counter]) && (innerCounter != counter))
 			{
 				unique = false;
 				break;
@@ -64,9 +69,9 @@ int main()
 			}
 			stakanMultiplyer(stakan, bytilka);
 
-			bool unique = isUnique(bytilka);
+			bool uniqueArrayValues = arrayValuesAreUnique(stakan,bytilka);
 
-			if ((stakan[3] == bytilka[6]) && (stakan[5] == stakan[3]) && (stakan[2] == bytilka[2]) && (stakan[4] == bytilka[5]) && (unique))
+			if ((stakan[3] == bytilka[6]) && (stakan[5] == stakan[3]) && (stakan[2] == bytilka[2]) && (stakan[4] == bytilka[5]) && (uniqueArrayValues))
 				break; // проверяем базовое условие
 	}
 	
@@ -79,15 +84,13 @@ int main()
 		std::cout << stakan[counter] << " ";
 	}
 
-	stakanMultiplyer(stakan, bytilka);
-
-	std::cout << " раз\n"; // !!! убрать
+	std::cout << " раз\n";
 
 	std::cout << "\nИскомое значение БУТЫЛКИ: ";
 
 	for (int counter = 0; counter < 7; ++counter) //вывод итогового значения бутылки
 	{
-		std::cout << bytilka[counter];
+		std::cout << bytilka[counter] << " ";
 	}
 	
 	std::cout << "!\n";
